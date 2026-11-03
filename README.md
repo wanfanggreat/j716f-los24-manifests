@@ -39,8 +39,12 @@ SHA-256: `8665875fa5b36db92e32c7360469b0acebb48246f398f5d9b814270cbc7fea0e`
 (1,241 projects, all full SHAs, no local paths/private remotes).
 
 Status: **SOURCE NORMALIZED / INCREMENTAL BUILD PASS**;
-**CLEAN BUILD NOT VERIFIED / DEVICE NOT RE-TESTED**. The E9 manifest below
-remains the device-verified baseline and is not modified by this candidate.
+**E12 DEVICE VERIFICATION PARTIAL PASS** (E11 system/vendor flashed;
+boot/FBE/vold/apex/keystore/WPA2/WPA3/SoftAP service layer/display/
+fingerprint HAL passed; PIN/fingerprint unlock, Bluetooth/audio/Dolby,
+SoftAP client and full BPF summary NOT VERIFIED).
+**CLEAN BUILD NOT VERIFIED.** The E9 manifest below remains the
+device-verified baseline and is not modified by this candidate.
 
 ## E9 verified baseline (2026-11-03)
 
