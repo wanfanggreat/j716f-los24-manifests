@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  TB-J716F LOS24 production candidate (P3-E11), 2026-11-03.
+  TB-J716F LOS24 E11 device-verified stable baseline (P3-E11/E12), 2026-11-03.
 
   Derived from los24-lock-20261103.xml (the E9 device-verified source
   baseline). It keeps every device-specific fix that E9 depends on and
@@ -36,12 +36,20 @@
   would risk a bpfloader reboot loop. See the E11 task record.
 
   Every project is pinned to a full 40-character commit SHA on a public
-  remote. This is a source candidate, not a device-verified baseline:
-  no clean build has been run and the device has not been re-tested.
+  remote. This is the E11 device-verified stable baseline: E12 flashed
+  system_a/vendor_a, and the user confirmed PIN/fingerprint unlock,
+  Bluetooth A2DP, audio/Dolby, physical display/touch/rotation, and
+  SoftAP transition/WPA3-only/WPA2-only with client DHCP/internet.
+  A clean rebuild from this manifest has not been executed.
+
+  Residual items: full BPF object summary was not captured, Widevine
+  CBS_init remains a pre-existing failure, F2 (Wi-Fi reconnect) is not
+  fixed, and product/odm/recovery/vbmeta provenance is not closed.
 
   Companion records:
+    docs/project/BASELINE-E11-20261103.md
     planning/tasks/TASK-20261103-p3-e11-production-cleanup.md
-    docs/project/BASELINE-E9-20261103.md
+    planning/tasks/TASK-20261103-p3-e12-production-device-verify.md
 -->
 <manifest>
   <remote name="aosp" fetch="https://android.googlesource.com" review="android-review.googlesource.com" revision="refs/tags/android-17.0.0_r1"/>

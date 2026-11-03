@@ -35,7 +35,7 @@ repo init -u https://github.com/wanfanggreat/j716f-los24-manifests.git \
 repo sync -c -j8
 ```
 
-SHA-256: `8665875fa5b36db92e32c7360469b0acebb48246f398f5d9b814270cbc7fea0e`
+SHA-256: `9ebdda860084a9206243476c55b366131135d1189f054c2ee535f2d39d1cb232`
 (1,241 projects, all full SHAs, no local paths/private remotes).
 
 Status: **DEVICE VERIFIED STABLE BASELINE (2026-11-03)**.
