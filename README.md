@@ -3,7 +3,46 @@
 Public manifest repository for reproducible checkouts of the LineageOS 24
 (Android 17) source tree used by the TB-J716F development project.
 
-## E9 verified baseline (2026-11-03) — current
+## Production candidate (P3-E11, 2026-11-03) — current
+
+`manifests/los24-production-20261103.xml` is the production-oriented
+candidate derived from the E9 verified baseline. It keeps the device-specific
+fixes E9 depends on and normalizes purely diagnostic local deviations:
+
+| Project | Revision | Change |
+| --- | --- | --- |
+| `device/lenovo/p11_pro_plus` | `1dec41130f5d5fa9ace5108c85ab91245694ec7f` (`j716f/production-e11`) | remove inert LHDC vendor.prop property (0017) and the uninstalled `tools/drm_probe` diagnostic |
+| `hardware/interfaces` | `13fc23dae0dcd24fc2411d74f54a407999eaf555` (upstream) | drop deprecated KeyMint `/nonsecure` rename (0003); verified images never installed it |
+| `system/vold` | `11d8982f824d52e8122c7aa732207ba66b8f23c8` (upstream) | restore `vold` `reboot_on_failure` (0010) |
+| `system/apex` | `ce2bb9f710183c864040401d859874b5723e44d8` (upstream) | restore `apexd`/`apexd-bootstrap` `reboot_on_failure` (0010) |
+| `system/security` | `8ccaac9cc1c3d3bc15427e6ed55e0d774a647e70` (upstream) | drop P2-D0-S/P2-D2 diagnostic logging; native KeyMint TEE selection is upstream behavior |
+| `system/core` | `65d661b1a536701e8b118be4e9728d7b5ca727c9` (upstream) | drop zero-net-diff diagnostic commits |
+| `system/netd` | `fb7e47052620fd1139522e2b3d1343c8680f7c0f` (upstream) | drop zero-net-diff diagnostic commits |
+
+Retained on purpose (device-specific or required by the 4.19 kernel):
+bionic `close_range` fallback, kernel `NL80211_WPA_VERSION_3` backport,
+wpa_supplicant SAE_PWE revert, libbase/libhidl legacy ABI, display ABI/DPPS,
+AHandler compatibility, audio product strategy, LHDC default disable,
+WPA3 SoftAP/GeoTZ, Connectivity 4.19 BPF kernel-version exemption, BPF
+ringbuf/self-test workarounds and the `[p11-bpfdiag]` per-object loader.
+The BPF diagnostics are retained until device evidence proves all five BPF
+objects load and `reboot_on_failure` can be restored safely.
+
+```sh
+mkdir los24-prod && cd los24-prod
+repo init -u https://github.com/wanfanggreat/j716f-los24-manifests.git \
+          -m manifests/los24-production-20261103.xml
+repo sync -c -j8
+```
+
+SHA-256: `8665875fa5b36db92e32c7360469b0acebb48246f398f5d9b814270cbc7fea0e`
+(1,241 projects, all full SHAs, no local paths/private remotes).
+
+Status: **SOURCE NORMALIZED / INCREMENTAL BUILD PASS**;
+**CLEAN BUILD NOT VERIFIED / DEVICE NOT RE-TESTED**. The E9 manifest below
+remains the device-verified baseline and is not modified by this candidate.
+
+## E9 verified baseline (2026-11-03)
 
 `manifests/los24-lock-20261103.xml` pins the exact source tree that produced
 the device-verified P3-E9 system:
