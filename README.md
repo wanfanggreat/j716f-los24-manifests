@@ -3,7 +3,7 @@
 Public manifest repository for reproducible checkouts of the LineageOS 24
 (Android 17) source tree used by the TB-J716F development project.
 
-## Production candidate (P3-E11, 2026-11-03) — current
+## E11 device-verified stable baseline (2026-11-03) — current
 
 `manifests/los24-production-20261103.xml` is the production-oriented
 candidate derived from the E9 verified baseline. It keeps the device-specific
@@ -38,13 +38,14 @@ repo sync -c -j8
 SHA-256: `8665875fa5b36db92e32c7360469b0acebb48246f398f5d9b814270cbc7fea0e`
 (1,241 projects, all full SHAs, no local paths/private remotes).
 
-Status: **SOURCE NORMALIZED / INCREMENTAL BUILD PASS**;
-**E12 DEVICE VERIFICATION PARTIAL PASS** (E11 system/vendor flashed;
-boot/FBE/vold/apex/keystore/WPA2/WPA3/SoftAP service layer/display/
-fingerprint HAL passed; PIN/fingerprint unlock, Bluetooth/audio/Dolby,
-SoftAP client and full BPF summary NOT VERIFIED).
-**CLEAN BUILD NOT VERIFIED.** The E9 manifest below remains the
-device-verified baseline and is not modified by this candidate.
+Status: **DEVICE VERIFIED STABLE BASELINE (2026-11-03)**.
+E11 system/vendor flashed; boot/FBE/vold/apex/keystore/WPA2/WPA3/
+SoftAP service layer passed, and the user confirmed PIN/fingerprint
+unlock, Bluetooth A2DP, audio/Dolby, physical display/touch/rotation,
+and SoftAP three modes with client DHCP/internet.
+Residual: full BPF object summary not captured, Widevine `CBS_init`
+pre-existing failure, F2 not fixed, clean build not verified.
+The E9 manifest below is the previous baseline and rollback target.
 
 ## E9 verified baseline (2026-11-03)
 
