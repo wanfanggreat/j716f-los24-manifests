@@ -3,7 +3,56 @@
 Public manifest repository for reproducible checkouts of the LineageOS 24
 (Android 17) source tree used by the TB-J716F development project.
 
-## E11 device-verified stable baseline (2026-11-03) — current
+## E21 production baseline (2026-11-05) — current
+
+`manifests/los24-production-e21-20261105.xml` pins the source state for the
+device-verified E21 image combination. E21 only rebuilt `vendor` and
+`recovery`; the device `system` remains E11.
+
+| Partition | Image SHA-256 | Source |
+| --- | --- | --- |
+| `system_a` | `d6bfa3c125385177cca4b530ffbf6238caf71e1f518f6ff980213c871540e109` (sparse) | E11 manifest |
+| `vendor_a` | `3526a5a74f8d7006a7ea8d9c4ca10cd37a5b882d2601f1769b0458df88e2ca95` (sparse) / raw `287da36951ec09db1193bf862459414ec9b144b6d04274e0d4afbbef49285034` | this manifest |
+| `recovery_a` | `65ae449119b9e82fe1da0cbb2b8bcdf72c845b4370b1e387c54bc2a988d73ff7` | this manifest |
+| `boot_a` | `f49fc7c6288f6564763ae1a5502e1d09039b5306b5ab45850d9d0be5afb98757` (E8, kernel `#18`) | E8 |
+| `system_ext_a` | `5900f527ef12fe57a843c62f9d303ed132108d53dfe45e27930d5edd87162b59` (sparse) | E7 |
+
+Relative to E11, exactly one project changes:
+
+| Project | E11 | E21 | Change |
+| --- | --- | --- | --- |
+| `device/lenovo/p11_pro_plus` | `1dec41130f5d5fa9ace5108c85ab91245694ec7f` | `365a8e02a32447be9b48d60a8254c21e59898a60` (`j716f/bootctl-aidl`) | E20 QTI AIDL boot control for Android 17, E15 `watermark_scale_factor=120` experiment, E21 Goodix Ext SELinux mapping |
+
+All other 1,240 projects keep the E11 revisions. Do **not** apply `patches/`
+on top of this manifest.
+
+```sh
+mkdir los24-e21 && cd los24-e21
+repo init -u https://github.com/wanfanggreat/j716f-los24-manifests.git \
+          -m manifests/los24-production-e21-20261105.xml
+repo sync -c -j8
+```
+
+SHA-256: `edb427bfa2b75996331d64d61c4328471450d19e5c42403033bf5a8f66899427`
+(1,241 projects, all full SHAs, no local paths/private remotes).
+
+Status: **SOURCE PINNED / DEVICE VERIFIED (vendor + recovery) /
+CLEAN BUILD NOT VERIFIED / FRESH SYNC NOT VERIFIED**.
+E21 vendor/recovery were flashed and verified: vold/update_engine use the
+AIDL `IBootControl`, the checkpoint is marked booted successfully, and
+fastbootd reports `current-slot=a`, `slot-count=2`,
+`snapshot-update-status=none`. The Goodix fingerprint Ext interface is
+registered. **WSF=120 is an E15 experiment; long-term OOM stability is NOT
+verified.** Widevine `CBS_init`, F2 and F5 remain known issues.
+
+Worktree audit note: during the E21 build, six system-side projects were
+still on E9 snapshot diagnostic HEADs (`hardware/interfaces`, `system/apex`,
+`system/core`, `system/netd`, `system/security`, `system/vold`). They do not
+contribute to E21 vendor/recovery and are deliberately not pinned; pinning
+them would reintroduce E9 diagnostics into the E11 system. See the manifest
+header for their exact commits.
+
+## E11 device-verified baseline (2026-11-03) — previous / system source baseline
 
 `manifests/los24-production-20261103.xml` is the production-oriented
 candidate derived from the E9 verified baseline. It keeps the device-specific
@@ -139,8 +188,10 @@ of this manifest.
 
 ## Verification status
 
-- Source snapshot: PASS (every snapshot branch HEAD equals the local HEAD).
-- Fetchable manifest: PASS (all 1,241 revisions fetched from the pinned
-  remotes during verification).
-- Build reproducibility: NOT VERIFIED (no clean build was run).
-- Device: NOT TESTED.
+- E21: source pinned; E21 vendor/recovery device verified; clean build and
+  fresh sync NOT verified.
+- E9/E11: source snapshot PASS; E11 was the device functional baseline;
+  clean build NOT verified.
+- Fetchable manifest: all 1,241 revisions were fetched from the pinned
+  remotes during verification.
+- Device: E21 vendor/recovery verified; E21 `system` remains E11.
